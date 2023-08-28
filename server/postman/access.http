@@ -1,0 +1,69 @@
+@URL= http://localhost:3000 
+@JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmNjVlYmNkZTNhMTlkOWM0ZDMxM2IiLCJlbWFpbCI6InZpbmhuZ3V5ZW5hZDIyQGdtYWlsLmNvbSIsImlhdCI6MTY5MTQxMDIyMSwiZXhwIjoxNjkxNTgzMDIxfQ.Dyp4AsTS7ukpMySdfoLSdWuVam0RTQDcMxnrpSwGDmE
+@USER_ID=64c653565aaf0d10121dced3
+@API_KEY=8b71884dfc48cc368a1a78e08877d352900cdebe7b4b27b4d4a902a1fd29889eb4b111632d1129015d29669b786cac6749a77f5650c445db6b171653dd621848
+
+### @name update my password
+PATCH {{URL}}/auth/updateMyPassword
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+
+{
+	"passwordCurrent": "vinhnguyenad22",
+	"password": "vinhnguyenad22"
+}
+
+### @name reset password
+PUT {{URL}}/auth/resetPassword
+Content-Type: application/json
+
+{
+    "token":"b1a35900c78d0ade00fa0bff213dd76804856454ab9f43b3acc857ca5c41ae60",
+    "password":"123456"
+}
+
+### @name forgot password
+POST {{URL}}/auth/forgotPassword?email=vinhnguyenad22@gmail.com
+Content-Type: application/json
+
+### @name refresh token
+POST {{URL}}/auth/refreshToken
+Content-Type: application/json
+x-api-key: {{API_KEY}}
+Authorization: Bearer {{JWT}}
+
+### @name logout
+POST  {{URL}}/auth/logout
+Content-Type: application/json
+x-api-key: {{API_KEY}}
+Authorization: Bearer {{JWT}}
+
+### @name get current
+GET {{URL}}/auth/me
+Content-Type: application/json
+Authorization: Bearer {{JWT}}
+x-api-key: {{API_KEY}}
+
+### @name login
+POST {{URL}}/auth/login
+Content-Type: application/json
+x-api-key: {{API_KEY}}
+
+{
+    "email": "vinhnguyenad22@gmail.com",
+    "password": "vinhnguyenad22"
+}
+
+### @name register
+POST {{URL}}/auth/register
+Content-Type: application/json
+x-api-key: {{API_KEY}}
+
+{
+    "firstname": "Azure",
+    "lastname": "Vincent",
+    "email": "vinhnguyenad22@gmail.com",
+    "password": "vinhnguyenad22",
+    "phoneNumber":"123456789"
+}
+

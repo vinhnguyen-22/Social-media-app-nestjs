@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  dev-database:
+    image: postgres:15.0
+    container_name: dev-database
+    port:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: social-media
+      POSTGRES_PASSWORD: root
+    networks:
+      - nestjs-network
+networks:
+  nestjs-network:
