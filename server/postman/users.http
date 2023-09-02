@@ -1,0 +1,8 @@
+@URL= http://localhost:8080 
+@JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGNmNjVlYmNkZTNhMTlkOWM0ZDMxM2IiLCJlbWFpbCI6InZpbmhuZ3V5ZW5hZDIyQGdtYWlsLmNvbSIsImlhdCI6MTY5MTQxMDIyMSwiZXhwIjoxNjkxNTgzMDIxfQ.Dyp4AsTS7ukpMySdfoLSdWuVam0RTQDcMxnrpSwGDmE
+@USER_ID=64c653565aaf0d10121dced3
+@API_KEY=8b71884dfc48cc368a1a78e08877d352900cdebe7b4b27b4d4a902a1fd29889eb4b111632d1129015d29669b786cac6749a77f5650c445db6b171653dd621848
+
+### @name update my password
+GET  {{URL}}/users/all
+Content-Type: application/json

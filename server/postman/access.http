@@ -29,8 +29,12 @@ Content-Type: application/json
 ### @name refresh token
 POST {{URL}}/auth/refreshToken
 Content-Type: application/json
-x-api-key: {{API_KEY}}
-Authorization: Bearer {{JWT}}
+# x-api-key: {{API_KEY}}
+# Authorization: Bearer {{JWT}}
+
+{
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5jZW50QGdtYWlsLmNvbSIsImlhdCI6MTY5MzY2Nzc0NSwiZXhwIjoxNjkzNzU0MTQ1fQ.yxk44dbkOHYDTxGEww410mBQpH0X3EIEi27NjJBsa7Y"
+}
 
 ### @name logout
 POST  {{URL}}/auth/logout
@@ -49,7 +53,7 @@ POST {{URL}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "vinhnguyenad22@gmail.com",
+    "email": "vincent@gmail.com",
     "password": "vinhnguyenad22"
 }
 
@@ -58,10 +62,12 @@ POST {{URL}}/auth/register
 Content-Type: application/json
 
 {
-    "firstName": "Azure",
-    "lastName": "Vincent",
-    "email": "vinhnguyenad22@gmail.com",
+    "first_name": "Azure",
+    "last_name": "Vincent",
+    "email": "vincent@gmail.com",
     "password": "vinhnguyenad22",
-    "phoneNumber":"0344488761"
+    "phone_number":"0344488761",
+    "status":1,
+    "gender":0
 }
 
