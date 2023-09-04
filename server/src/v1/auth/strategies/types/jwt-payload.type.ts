@@ -6,3 +6,9 @@ export type JwtPayloadType = Pick<User, 'id'> & {
   iat: number;
   exp: number;
 };
+
+export type JwtRefreshPayloadType = {
+  sessionId: Session['id'];
+  iat: number;
+  exp: number;
+};

@@ -11,11 +11,11 @@ export class SessionService {
     private readonly sessionRepository: Repository<Session>,
   ) {}
 
-  async findOne(
-    options: FindOptionsWhere<Session>[] | FindOptionsWhere<Session>,
-  ): Promise<Session | null> {
+  async findOne(options: {
+    where: FindOptionsWhere<Session>[] | FindOptionsWhere<Session>;
+  }): Promise<Session | null> {
     return this.sessionRepository.findOne({
-      where: options,
+      where: options.where,
     });
   }
 

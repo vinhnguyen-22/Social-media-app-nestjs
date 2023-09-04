@@ -32,7 +32,3 @@ export class AuthDto {
   @MinLength(6)
   password: string;
 }
-export class UserDto {
-  email: string;
-  password: string;
-}
