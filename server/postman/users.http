@@ -4,5 +4,5 @@
 @API_KEY=8b71884dfc48cc368a1a78e08877d352900cdebe7b4b27b4d4a902a1fd29889eb4b111632d1129015d29669b786cac6749a77f5650c445db6b171653dd621848
 
 ### @name update my password
-GET  {{URL}}/users/all
+GET  {{URL}}/users
 Content-Type: application/json

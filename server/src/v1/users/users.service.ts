@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from './dto/users.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -12,9 +12,19 @@ export class UserService {
 
   async findAll() {
     try {
-      return await this.userRepository.find();
+      return await this.userRepository.find({
+        select: [
+          'id',
+          'firstName',
+          'lastName',
+          'email',
+          'status',
+          'created_at',
+          'updated_at',
+        ],
+      });
     } catch (error) {
-      console.log(error);
+      throw new BadRequestException(error);
     }
   }
 
@@ -27,8 +37,11 @@ export class UserService {
     return user;
   }
 
-  async create(userDto: CreateUserDto) {
-    const user = await this.userRepository.create(userDto);
-    return user;
+  async create(userDto: CreateUserDto): Promise<User> {
+    return await this.userRepository.save(
+      this.userRepository.create({
+        ...userDto,
+      }),
+    );
   }
 }

@@ -1,32 +1,34 @@
 import * as bcrypt from 'bcrypt';
+import { Exclude } from 'class-transformer';
 import { Post } from 'src/v1/post/entities/post.entity';
+import { EntityHelper } from 'src/v1/utils/entity-helper';
 import {
-  BaseEntity,
   BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class User extends BaseEntity {
+export class User extends EntityHelper {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  first_name: string;
+  firstName: string;
 
   @Column()
-  last_name: string;
+  lastName: string;
 
   @Column({ unique: true })
   email: string;
 
   @Column()
-  phone_number: string;
+  phoneNumber: string;
 
   @Column()
   password: string;
@@ -38,13 +40,15 @@ export class User extends BaseEntity {
   gender: boolean;
 
   @Column({ nullable: true })
-  avatar: string;
+  avatar: string | null;
 
   @Column({ nullable: true })
   dob: Date;
 
   @Column({ nullable: true })
-  refresh_token: string;
+  @Index()
+  @Exclude({ toPlainOnly: true })
+  refreshToken: string | null;
 
   @CreateDateColumn()
   created_at: Date;

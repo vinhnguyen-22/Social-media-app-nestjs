@@ -62,11 +62,11 @@ POST {{URL}}/auth/register
 Content-Type: application/json
 
 {
-    "first_name": "Azure",
-    "last_name": "Vincent",
+    "firstName": "Azure",
+    "lastName": "Vincent",
     "email": "vincent@gmail.com",
     "password": "vinhnguyenad22",
-    "phone_number":"0344488761",
+    "phoneNumber":"0344488761",
     "status":1,
     "gender":0
 }

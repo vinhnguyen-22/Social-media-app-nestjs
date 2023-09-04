@@ -14,3 +14,10 @@ export type DatabaseConfig = {
   key?: string;
   cert?: string;
 };
+
+export type AuthConfig = {
+  secret?: string;
+  expires?: string;
+  refreshSecret?: string;
+  refreshExpires?: string;
+};

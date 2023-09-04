@@ -7,30 +7,46 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import ms from 'ms';
 import { Repository } from 'typeorm';
+import { Session } from '../session/entities/session.entity';
+import { SessionService } from '../session/session.service';
 import { User } from '../users/entities/user.entity';
+import { UserService } from '../users/users.service';
 import { AuthDto, RegisterDto } from './dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+
+    private sessionService: SessionService,
+    private userService: UserService,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
 
-  async refreshToken(refresh_token: string): Promise<any> {
+  async refreshToken(refreshToken: string): Promise<any> {
     try {
-      const verify = await this.jwtService.verifyAsync(refresh_token, {
-        secret: this.configService.get<string>('AUTH_JWT_SECRET'),
+      // const session = await this.sessionService.findOne({
+      //   where: {
+      //     id: data.sessionId,
+      //   },
+      // });
+
+      const verify = await this.jwtService.verifyAsync(refreshToken, {
+        secret: this.configService.get<string>('AUTH_REFRESH_SECRET'),
       });
       const user = await this.userRepository.findOneBy({
         email: verify.email,
-        refresh_token,
+        refreshToken,
       });
-      console.log(user);
+
       if (user)
-        return this.generateKeyPairSync({ id: user.id, email: user.email });
+        return this.generateKeyPairSync({
+          id: user.id,
+          email: user.email,
+        });
       else throw new BadRequestException('Invalid refresh token');
     } catch (error) {
       throw new BadRequestException('Invalid refresh token');
@@ -40,12 +56,15 @@ export class AuthService {
   async register(registerDto: RegisterDto): Promise<User> {
     try {
       const hashedPassword = await this.hashPassword(registerDto.password);
-      const newUser = await this.userRepository.save({
+
+      // Create user
+      const newUser = await this.userService.create({
         ...registerDto,
-        gender: registerDto.gender == 1 ? true : false,
-        refresh_token: 'refresh-token-string',
         password: hashedPassword,
+        refreshToken: 'token-string',
+        gender: registerDto.gender == 1 ? true : false,
       });
+
       delete newUser.password;
       return newUser;
     } catch (error) {
@@ -68,26 +87,43 @@ export class AuthService {
 
     delete user.password; // remove 1 field in the object
 
-    const payload = { id: user.id, email: user.email };
+    const session = await this.sessionService.create(user);
+
+    const payload = { id: user.id, email: user.email, sessionId: session.id };
     const tokens = await this.generateKeyPairSync(payload);
     return tokens;
   }
 
-  private async generateKeyPairSync(payload: { id: number; email: string }) {
-    const access_token = await this.jwtService.signAsync(payload, {
-      secret: this.configService.get<string>('AUTH_JWT_SECRET'),
-      expiresIn: '1h',
+  private async generateKeyPairSync(payload: {
+    id: number;
+    email: string;
+    sessionId?: Session['id'];
+  }) {
+    const tokenExpiresIn = this.configService.getOrThrow('auth.expires', {
+      infer: true,
     });
-    const refresh_token = await this.jwtService.signAsync(payload, {
-      secret: this.configService.get<string>('AUTH_JWT_SECRET'),
-      expiresIn: '1d',
-    });
+    const tokenExpires = Date.now() + ms(tokenExpiresIn);
+
+    const [accessToken, refreshToken] = await Promise.all([
+      await this.jwtService.signAsync(payload, {
+        secret: this.configService.getOrThrow('auth.secret', { infer: true }),
+        expiresIn: tokenExpires,
+      }),
+      await this.jwtService.signAsync(payload, {
+        secret: this.configService.getOrThrow('auth.refreshSecret', {
+          infer: true,
+        }),
+        expiresIn: this.configService.getOrThrow('auth.refreshExpires', {
+          infer: true,
+        }),
+      }),
+    ]);
 
     await this.userRepository.update(
       { email: payload.email },
-      { refresh_token },
+      { refreshToken: refreshToken },
     );
-    return { access_token, refresh_token };
+    return { accessToken, refreshToken };
   }
 
   private async hashPassword(password: string): Promise<string> {
