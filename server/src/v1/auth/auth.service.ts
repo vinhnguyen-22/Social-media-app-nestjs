@@ -85,6 +85,8 @@ export class AuthService {
     const { accessToken, refreshToken, tokenExpires } =
       await this.generateKeyPairSync(payload);
 
+    delete user.password;
+
     return {
       accessToken,
       refreshToken,
