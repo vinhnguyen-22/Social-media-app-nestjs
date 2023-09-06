@@ -7,7 +7,9 @@ import {
   MinLength,
   Validate,
 } from 'class-validator';
+import { Role } from 'src/v1/roles/entities/role.entity';
 import { lowerCaseTransformer } from 'src/v1/utils/transformers/lower-case.transformer';
+import { IsExist } from 'src/v1/utils/validators/is-exists.validator';
 import { IsNotExist } from 'src/v1/utils/validators/is-not-exists.validator';
 
 export class CreateUserDto {
@@ -41,4 +43,9 @@ export class CreateUserDto {
   gender?: boolean;
 
   refreshToken?: string;
+
+  @Validate(IsExist, ['Role', 'id'], {
+    message: 'roleNotExists',
+  })
+  role?: Role | null;
 }

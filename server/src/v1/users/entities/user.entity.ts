@@ -1,13 +1,17 @@
 import * as bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
 import { Post } from 'src/v1/post/entities/post.entity';
+import { Role } from 'src/v1/roles/entities/role.entity';
 import { EntityHelper } from 'src/v1/utils/entity-helper';
 import {
+  AfterLoad,
   BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -24,14 +28,24 @@ export class User extends EntityHelper {
   @Column()
   lastName: string;
 
-  @Column({ unique: true })
+  // For "string | null" we need to use String type.
+  @Column({ unique: true, nullable: true, type: String })
   email: string;
 
   @Column()
   phoneNumber: string;
 
   @Column()
+  @Exclude({ toPlainOnly: true })
   password: string;
+
+  @Exclude({ toPlainOnly: true })
+  public previousPassword: string;
+
+  @AfterLoad()
+  public loadPreviousPassword(): void {
+    this.previousPassword = this.password;
+  }
 
   @Column()
   status: number;
@@ -57,10 +71,16 @@ export class User extends EntityHelper {
   updated_at: Date;
 
   @BeforeInsert()
+  @BeforeUpdate()
   async setPassword(password: string) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(password || this.password, salt);
   }
+
+  @ManyToOne(() => Role, {
+    eager: true,
+  })
+  role?: Role | null;
 
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
