@@ -8,13 +8,13 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     return {
-      type: 'postgres',
+      type: this.configService.get('db.type', { infer: true }),
       url: this.configService.get('db.url', { infer: true }),
       host: this.configService.get('db.host', { infer: true }),
       port: this.configService.get('db.port', { infer: true }),
-      username: 'postgres',
-      password: 'root',
-      database: 'social_media',
+      username: this.configService.get('db.username', { infer: true }),
+      password: this.configService.get('db.password', { infer: true }),
+      database: this.configService.get('db.name', { infer: true }),
       synchronize: this.configService.get('db.synchronize', {
         infer: true,
       }),

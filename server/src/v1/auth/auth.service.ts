@@ -2,7 +2,6 @@ import {
   ForbiddenException,
   Injectable,
   UnauthorizedException,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 import { ConfigService } from '@nestjs/config';
@@ -18,7 +17,10 @@ import { User } from '../users/entities/user.entity';
 import { UserService } from '../users/users.service';
 import { AuthDto, RegisterDto } from './dto';
 import { LoginResponseType } from './presenters/login-response.presenter';
-import { JwtRefreshPayloadType } from './strategies/types/jwt-payload.type';
+import {
+  JwtPayloadType,
+  JwtRefreshPayloadType,
+} from './strategies/types/jwt-payload.type';
 
 @Injectable()
 export class AuthService {
@@ -28,6 +30,16 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
+
+  async me(jwtPayloadType: JwtPayloadType): Promise<User | null> {
+    const user = await this.userService.findOne({
+      id: jwtPayloadType.id,
+    });
+
+    delete user.password;
+    delete user.previousPassword;
+    return user;
+  }
 
   async refreshToken(
     data: Pick<JwtRefreshPayloadType, 'sessionId'>,
@@ -99,8 +111,8 @@ export class AuthService {
       authDto.password,
       user.password,
     );
-    if (!passwordMatched)
-      throw new UnprocessableEntityException('Incorrect Password');
+
+    if (!passwordMatched) throw new ForbiddenException('Incorrect password');
 
     const session = await this.sessionService.create({ user });
 
@@ -115,6 +127,7 @@ export class AuthService {
       await this.generateKeyPairSync(payload);
 
     delete user.password;
+    delete user.previousPassword;
 
     return {
       accessToken,

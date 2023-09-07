@@ -73,7 +73,7 @@ class EnvironmentVariablesValidator {
   DB_CERT: string;
 }
 
-export default registerAs<DatabaseConfig>('database', () => {
+export default registerAs<DatabaseConfig>('db', () => {
   validateConfig(process.env, EnvironmentVariablesValidator);
 
   return {

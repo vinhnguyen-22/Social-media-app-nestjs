@@ -33,3 +33,9 @@ export type AuthConfig = {
   refreshSecret?: string;
   refreshExpires?: string;
 };
+
+export type AllConfigType = {
+  app: AppConfig;
+  auth: AuthConfig;
+  database: DatabaseConfig;
+};

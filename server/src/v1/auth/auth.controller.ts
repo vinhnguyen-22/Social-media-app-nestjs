@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -16,6 +17,13 @@ import { LoginResponseType } from './presenters/login-response.presenter';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Get('me')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.OK)
+  public me(@Request() request): Promise<User | null> {
+    return this.authService.me(request.user);
+  }
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
