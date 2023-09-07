@@ -54,7 +54,7 @@ Content-Type: application/json
 
 {
     "email": "vincent@gmail.com",
-    "password": "vinhnguyenad22"
+    "password": "123456"
 }
 
 ### @name register
@@ -64,9 +64,9 @@ Content-Type: application/json
 {
     "firstName": "Azure",
     "lastName": "Vincent",
-    "email": "vincent@gmail.com",
+    "email": "vincentazure@gmail.com",
     "password": "vinhnguyenad22",
-    "phoneNumber":"0344488761",
+    "phoneNumber":"0344488123",
     "status":1,
     "gender":0
 }

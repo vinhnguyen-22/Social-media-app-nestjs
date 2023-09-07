@@ -1,3 +1,6 @@
 {
-  "cSpell.words": ["typeorm"]
+  "cSpell.words": ["typeorm"],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"],
+  "javascript.updateImportsOnFileMove.enabled": "always"
 }

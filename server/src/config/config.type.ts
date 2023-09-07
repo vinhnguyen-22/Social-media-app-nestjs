@@ -1,3 +1,15 @@
+export type AppConfig = {
+  nodeEnv: string;
+  name: string;
+  workingDirectory: string;
+  frontendUrl?: string;
+  backendUrl: string;
+  port: number;
+  apiPrefix: string;
+  fallbackLanguage: string;
+  headerLanguage: string;
+};
+
 export type DatabaseConfig = {
   url?: string;
   type?: string;

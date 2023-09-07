@@ -73,6 +73,8 @@ export class AuthService {
       });
 
       delete newUser.password;
+      delete newUser.previousPassword;
+      delete newUser.role.id;
       return newUser;
     } catch (error) {
       if (error.code == 'P2002') {

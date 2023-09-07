@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { DataSource, DataSourceOptions } from 'typeorm';
-console.log(process.env.DB_PASSWORD);
+
 const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
