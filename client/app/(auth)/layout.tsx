@@ -1,3 +1,4 @@
+import Logo from '@/components/common/Logo';
 import { ThemeToggleBtn } from '@/components/common/ThemeToggleBtn';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Metadata } from 'next';
@@ -18,6 +19,9 @@ export default function AuthLayout({
         <div className='flex h-screen w-screen items-center justify-center'>
           <div className='mx-2 w-full rounded-lg bg-muted p-6 md:w-1/3'>
             <ThemeToggleBtn />
+            <div className='flex justify-center'>
+              <Logo />
+            </div>
             {children}
           </div>
         </div>
