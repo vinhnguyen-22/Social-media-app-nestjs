@@ -9,11 +9,16 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { Icons } from '../Icons';
 import { Button } from '../ui/button';
+
 // import { toast } from '@/components/ui/use-toast';
 
 const FormSchema = z.object({
@@ -29,6 +34,8 @@ const FormSchema = z.object({
 });
 
 export function SignInForm() {
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver<any>(FormSchema),
   });
@@ -46,11 +53,31 @@ export function SignInForm() {
     console.log(data);
   }
 
+  const loginWithGoogle = async () => {
+    setLoading(true);
+    try {
+      await signIn('google');
+    } catch (error) {
+      toast({
+        title: 'There was a problem',
+        description: 'There was an error signing you in.',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-      <div className=' flex flex-col items-center justify-center'>
+      <div className='flex flex-col items-center justify-center text-center'>
         <h1 className='text-2xl font-bold text-orange-500'>Login</h1>
         <p>Welcome Back</p>
+        <p className='mx-auto max-w-xs text-sm'>
+          By continuing, you are setting up a{' '}
+          <span className='font-bold text-orange-500'>Vincent </span>account and
+          agree to our User Agreement and Privacy Policy.
+        </p>
       </div>
 
       <Form {...form}>
@@ -91,6 +118,16 @@ export function SignInForm() {
 
           <Button className='mt-6 w-full' type='submit'>
             Login
+          </Button>
+          <Button
+            className='mt-4 w-full'
+            onClick={loginWithGoogle}
+            loading={loading}
+            size='sm'
+            disabled={loading}
+          >
+            {loading ? null : <Icons.google className='mr-2 h-4 w-4' />}
+            Google
           </Button>
           <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
             Or

@@ -7,11 +7,18 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { IUser } from '@/types/auth';
 import { Menu, User2 } from 'lucide-react';
 import Link from 'next/link';
+import { FC } from 'react';
 import SidebarItemLink from '../sidebar/SidebarItem/SidebarItemLink';
+import UserAccountNav from './UserAccountNav';
 
-export default function MobileNav() {
+interface MobileNavProps {
+  user?: Pick<IUser, 'name' | 'photo' | 'email'>;
+}
+
+const MobileNav: FC<MobileNavProps> = ({ user }) => {
   return (
     <nav className='flex items-center justify-between md:hidden'>
       <div className='flex items-center'>
@@ -38,8 +45,14 @@ export default function MobileNav() {
       <Logo />
 
       <Link href='/profile'>
-        <User2 height={30} width={30} className='font-bold' />
+        {user ? (
+          <UserAccountNav user={user} />
+        ) : (
+          <User2 height={30} width={30} className='font-bold' />
+        )}
       </Link>
     </nav>
   );
-}
+};
+
+export default MobileNav;

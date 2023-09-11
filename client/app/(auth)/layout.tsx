@@ -16,7 +16,7 @@ export default function AuthLayout({
   return (
     <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
       <div className='bg-background'>
-        <div className='flex h-screen w-screen items-center justify-center'>
+        <div className='flex items-center justify-center'>
           <div className='mx-2 w-full rounded-lg bg-muted p-6 md:w-1/3'>
             <ThemeToggleBtn />
             <div className='flex justify-center'>

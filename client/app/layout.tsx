@@ -1,3 +1,5 @@
+import { Toaster } from '@/components/ui/toaster';
+import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -15,8 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body className={inter.className}>{children}</body>
+    <html lang='en' className={cn('antialiased ', inter.className)}>
+      <body className='min-h-screen antialiased md:pt-12'>
+        <main className='container mx-auto h-full max-w-7xl '>{children}</main>
+        <Toaster />
+      </body>
     </html>
   );
 }

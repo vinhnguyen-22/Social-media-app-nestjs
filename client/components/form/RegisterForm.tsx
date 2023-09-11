@@ -56,7 +56,6 @@ export function RegisterForm() {
     <>
       <div className=' flex flex-col items-center justify-center'>
         <h1 className='text-2xl font-bold text-orange-500'>Register</h1>
-        <p>Welcome Back</p>
       </div>
 
       <Form {...form}>

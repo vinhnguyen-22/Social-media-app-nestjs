@@ -8,7 +8,7 @@ export default function Logo({ title = false }: { title?: boolean }) {
 
   return (
     <Link href='/' className='flex items-center justify-center '>
-      <div className='rounded-lg bg-black'>
+      <div className='rounded-lg bg-background'>
         <Image
           className={theme != 'light' ? 'invert' : ''}
           src='/images/logo.png'
