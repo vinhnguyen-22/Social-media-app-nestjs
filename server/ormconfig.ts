@@ -16,13 +16,11 @@ const AppDataSource = new DataSource({
   dropSchema: false,
   keepConnectionAlive: true,
   logging: process.env.NODE_ENV !== 'production',
-  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-  cli: {
-    entitiesDir: 'src',
-    migrationsDir: 'src/database/migrations',
-    subscribersDir: 'subscriber',
-  },
+  entities: [
+    'src/modules/**/*.entity{.ts,.js}',
+    'src/modules/**/*.view-entity{.ts,.js}',
+  ],
+  migrations: ['src/database/migrations/*{.ts,.js}'],
 } as DataSourceOptions);
 
 export default AppDataSource;

@@ -10,9 +10,12 @@ import appConfig from './config/app.config';
 import authConfig from './config/auth.config';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { AuthModule } from './modules/v1/auth/auth.module';
+import { MailModule } from './modules/v1/mail/mail.module';
 import { PostModule } from './modules/v1/post/post.module';
 import { SessionModule } from './modules/v1/session/session.module';
 import { UserModule } from './modules/v1/users/users.module';
+import { MailerController } from './modules/v1/mailer/mailer.controller';
+import { MailerModule } from './modules/v1/mailer/mailer.module';
 
 @Module({
   imports: [
@@ -32,8 +35,10 @@ import { UserModule } from './modules/v1/users/users.module';
     JwtModule,
     PostModule,
     SessionModule,
+    MailModule,
+    MailerModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, MailerController],
   providers: [AppService],
 })
 export class AppModule {}

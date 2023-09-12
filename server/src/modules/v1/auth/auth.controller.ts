@@ -12,11 +12,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { User } from '../users/entities/user.entity';
 import { AuthService } from './auth.service';
 import { AuthDto, RegisterDto } from './dto';
 import { LoginResponseType } from './presenters/login-response.presenter';
 
+@ApiTags('Auth')
 @Controller({
   path: 'auth',
   version: '1',
@@ -34,6 +36,7 @@ export class AuthController {
     });
   }
 
+  @ApiBearerAuth()
   @Get('me')
   @SerializeOptions({
     groups: ['me'],
@@ -44,6 +47,10 @@ export class AuthController {
     return this.authService.me(request.user);
   }
 
+  @ApiOkResponse({
+    type: AuthDto,
+    description: 'User info with access token',
+  })
   @Post('login')
   @HttpCode(HttpStatus.OK)
   login(@Body() body: AuthDto): Promise<LoginResponseType> {
