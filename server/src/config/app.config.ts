@@ -8,7 +8,7 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import validateConfig from 'src/v1/utils/validate-config';
+import validateConfig from 'src/modules/v1/utils/validate-config';
 import { AppConfig } from './config.type';
 
 enum Environment {

@@ -7,10 +7,10 @@ import {
   MinLength,
   Validate,
 } from 'class-validator';
-import { Role } from 'src/v1/roles/entities/role.entity';
-import { lowerCaseTransformer } from 'src/v1/utils/transformers/lower-case.transformer';
-import { IsExist } from 'src/v1/utils/validators/is-exists.validator';
-import { IsNotExist } from 'src/v1/utils/validators/is-not-exists.validator';
+import { Role } from 'src/modules/v1/roles/entities/role.entity';
+import { lowerCaseTransformer } from 'src/modules/v1/utils/transformers/lower-case.transformer';
+import { IsExist } from 'src/modules/v1/utils/validators/is-exists.validator';
+import { IsNotExist } from 'src/modules/v1/utils/validators/is-not-exists.validator';
 
 export class CreateUserDto {
   @IsEmail()

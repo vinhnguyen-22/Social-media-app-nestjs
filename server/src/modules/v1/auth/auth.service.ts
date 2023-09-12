@@ -31,13 +31,17 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
+  async logout({ sessionId }: { sessionId: number }): Promise<void> {
+    return this.sessionService.softDelete({
+      id: sessionId,
+    });
+  }
+
   async me(jwtPayloadType: JwtPayloadType): Promise<User | null> {
     const user = await this.userService.findOne({
       id: jwtPayloadType.id,
     });
 
-    delete user.password;
-    delete user.previousPassword;
     return user;
   }
 

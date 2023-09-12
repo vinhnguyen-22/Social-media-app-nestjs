@@ -8,7 +8,7 @@ import {
   Min,
   ValidateIf,
 } from 'class-validator';
-import validateConfig from 'src/v1/utils/validate-config';
+import validateConfig from 'src/modules/v1/utils/validate-config';
 import { DatabaseConfig } from './config.type';
 
 class EnvironmentVariablesValidator {

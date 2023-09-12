@@ -1,12 +1,15 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   HttpCode,
   HttpStatus,
   Post,
   Request,
+  SerializeOptions,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '../users/entities/user.entity';
@@ -14,11 +17,27 @@ import { AuthService } from './auth.service';
 import { AuthDto, RegisterDto } from './dto';
 import { LoginResponseType } from './presenters/login-response.presenter';
 
-@Controller('auth')
+@Controller({
+  path: 'auth',
+  version: '1',
+})
+@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('logout')
+  @UseGuards(AuthGuard('jwt'))
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async logout(@Request() request): Promise<void> {
+    await this.authService.logout({
+      sessionId: request.user.sessionId,
+    });
+  }
 
   @Get('me')
+  @SerializeOptions({
+    groups: ['me'],
+  })
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
   public me(@Request() request): Promise<User | null> {

@@ -1,5 +1,5 @@
-import { User } from 'src/v1/users/entities/user.entity';
-import { EntityHelper } from 'src/v1/utils/entity-helper';
+import { User } from 'src/modules/v1/users/entities/user.entity';
+import { EntityHelper } from 'src/modules/v1/utils/entity-helper';
 import {
   CreateDateColumn,
   DeleteDateColumn,

@@ -9,10 +9,10 @@ import { AppService } from './app.service';
 import appConfig from './config/app.config';
 import authConfig from './config/auth.config';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
-import { AuthModule } from './v1/auth/auth.module';
-import { PostModule } from './v1/post/post.module';
-import { SessionModule } from './v1/session/session.module';
-import { UserModule } from './v1/users/users.module';
+import { AuthModule } from './modules/v1/auth/auth.module';
+import { PostModule } from './modules/v1/post/post.module';
+import { SessionModule } from './modules/v1/session/session.module';
+import { UserModule } from './modules/v1/users/users.module';
 
 @Module({
   imports: [

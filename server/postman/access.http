@@ -1,4 +1,4 @@
-@URL= http://localhost:8080 
+@URL= http://localhost:8080
 @JWT=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ2aW5jZW50QGdtYWlsLmNvbSIsInJvbGUiOnsiaWQiOjEsIm5hbWUiOiJBZG1pbiIsIl9fZW50aXR5IjoiUm9sZSJ9LCJzZXNzaW9uSWQiOjIsImlhdCI6MTY5NDEwMjkxMCwiZXhwIjoxNjk1Nzk3OTEzODk0fQ.EaFNPghXdzdNRGB9rjm_m7EPkxRThEpuZQyxCN-jQN8
 @USER_ID=64c653565aaf0d10121dced3
 @API_KEY=8b71884dfc48cc368a1a78e08877d352900cdebe7b4b27b4d4a902a1fd29889eb4b111632d1129015d29669b786cac6749a77f5650c445db6b171653dd621848
@@ -39,7 +39,6 @@ Content-Type: application/json
 ### @name logout
 POST  {{URL}}/auth/logout
 Content-Type: application/json
-x-api-key: {{API_KEY}}
 Authorization: Bearer {{JWT}}
 
 ### @name get current

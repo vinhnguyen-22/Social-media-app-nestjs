@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcrypt';
-import { Exclude } from 'class-transformer';
-import { Post } from 'src/v1/post/entities/post.entity';
-import { Role } from 'src/v1/roles/entities/role.entity';
-import { EntityHelper } from 'src/v1/utils/entity-helper';
+import { Exclude, Expose } from 'class-transformer';
+import { Post } from 'src/modules/v1/post/entities/post.entity';
+import { Role } from 'src/modules/v1/roles/entities/role.entity';
+import { EntityHelper } from 'src/modules/v1/utils/entity-helper';
 import {
   AfterLoad,
   BeforeInsert,
@@ -30,6 +30,7 @@ export class User extends EntityHelper {
 
   // For "string | null" we need to use String type.
   @Column({ unique: true, nullable: true, type: String })
+  @Expose({ groups: ['me', 'admin'] })
   email: string;
 
   @Column()
